@@ -1,6 +1,9 @@
 # solparse
 Parse Solidity Code into Spider Monkey API compliant AST
 
+#UPDATE
+All changes have now been merged into [solidity-parser](https://github.com/ConsenSys/solidity-parser) (thanks to **axic** and **tcoulter**). I'll continue to maintain this repo until all reported issues have been fixed and once those changes are merged into solidity-parser, this repo's maintenance will be discontinued. (And solidity-parser shall be flawless by then ;) )
+
 This is a (much more) refined version of [solidity-parser](https://github.com/ConsenSys/solidity-parser). 
 I've fixed a lot of bugs (see below) and added features as per solidity grammar spec (but obviously its not perfect a.t.m.). I plan to maintain it long-term =)
 
