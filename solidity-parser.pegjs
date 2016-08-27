@@ -637,7 +637,7 @@ PropertyNameAndValueList
 
 PropertyAssignment
   = key:PropertyName __ ":" __ value:AssignmentExpression {
-      return { key: key, value: value, kind: "init", start: location().start.offset, end: location().end.offset };
+      return { type: "Property", key: key, value: value, kind: "init", start: location().start.offset, end: location().end.offset };
     }
 
 PropertyName
