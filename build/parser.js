@@ -731,7 +731,7 @@ module.exports = (function() {
             return {
               type: "UsingStatement",
               library: library.name,
-              for: type.name,
+              for: type,
               start: location().start.offset,
               end: location().end.offset
             }
@@ -12252,7 +12252,7 @@ module.exports = (function() {
               if (s5 !== peg$FAILED) {
                 s6 = peg$parse__();
                 if (s6 !== peg$FAILED) {
-                  s7 = peg$parseIdentifier();
+                  s7 = peg$parseExpression();
                   if (s7 !== peg$FAILED) {
                     s8 = peg$parse__();
                     if (s8 !== peg$FAILED) {

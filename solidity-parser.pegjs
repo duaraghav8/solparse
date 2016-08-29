@@ -1236,12 +1236,12 @@ ImportStatement
   }
 
 UsingStatement
-  = UsingToken __ library:Identifier __ ForToken __ type:Identifier __ EOS
+  = UsingToken __ library:Identifier __ ForToken __ type:Expression __ EOS
   {
     return {
       type: "UsingStatement",
       library: library.name,
-      for: type.name,
+      for: type,
       start: location().start.offset,
       end: location().end.offset
     }
