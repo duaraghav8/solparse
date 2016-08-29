@@ -393,7 +393,7 @@ module.exports = (function() {
         peg$c288 = ":",
         peg$c289 = { type: "literal", value: ":", description: "\":\"" },
         peg$c290 = function(key, value) {
-              return { key: key, value: value, kind: "init", start: location().start.offset, end: location().end.offset };
+              return { type: "Property", key: key, value: value, kind: "init", start: location().start.offset, end: location().end.offset };
             },
         peg$c291 = function(id) { return [id]; },
         peg$c292 = function(callee, args) {
