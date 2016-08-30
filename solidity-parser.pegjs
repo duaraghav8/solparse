@@ -822,13 +822,21 @@ UnaryOperator
   / "~"
   / "!"
 
-MultiplicativeExpression
+PowerofExpression
   = head:UnaryExpression
+    tail:(__ PowerofOperator __ UnaryExpression)*
+    { return buildBinaryExpression(head, tail); }
+
+PowerofOperator
+  = $("**" !"=")
+
+MultiplicativeExpression
+  = head:PowerofExpression
     tail:(__ MultiplicativeOperator __ UnaryExpression)*
     { return buildBinaryExpression(head, tail); }
 
 MultiplicativeOperator
-  = $("*""*"? !"=")
+  = $("*" !"=")
   / $("/" !"=")
   / $("%" !"=")
 
