@@ -832,7 +832,7 @@ PowerofOperator
 
 MultiplicativeExpression
   = head:PowerofExpression
-    tail:(__ MultiplicativeOperator __ UnaryExpression)*
+    tail:(__ MultiplicativeOperator __ PowerofExpression)*
     { return buildBinaryExpression(head, tail); }
 
 MultiplicativeOperator
