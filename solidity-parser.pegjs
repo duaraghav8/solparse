@@ -1600,9 +1600,10 @@ EventDeclaration
   }
 
 ModifierDeclaration
-  = ModifierToken __ fnname:ModifierName __ names:ModifierNameList? __
-    "{" __ body:FunctionBody __ "}"
+  = ModifierToken __ fnname:ModifierName __ names:ModifierNameList?
+    __ body:FunctionBody __
     {
+      console.log ('****', body);
       return {
         type: "ModifierDeclaration",
         name: fnname.name,
@@ -1616,14 +1617,14 @@ ModifierDeclaration
 
 FunctionDeclaration
   = FunctionToken __ fnname:FunctionName __ names:ModifierNameList? __
-    body:("{" __ FunctionBody __ "}")? (__ EOS)?  // Remove EmptyStatement if no body
+    body:(__ FunctionBody __)? (__ EOS)?  // Remove EmptyStatement if no body
     {
       return {
         type: "FunctionDeclaration",
         name: fnname.name,
         params: fnname.params,
         modifiers: names,
-        body: body != null ? body[2] : null,
+        body: body != null ? body[1] : null,
         is_abstract: body == null,
         start: location().start.offset,
         end: location().end.offset
@@ -1690,7 +1691,7 @@ InformalParameterList
 
 
 FunctionBody
-  = body:SourceElements? {
+  = "{" __ body:SourceElements? __ "}" {
       return {
         type: "BlockStatement",
         body: optionalList(body),
