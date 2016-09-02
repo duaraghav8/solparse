@@ -980,7 +980,6 @@ module.exports = (function() {
             }
           },
         peg$c457 = function(fnname, names, body) {
-              console.log ('****', body);
               return {
                 type: "ModifierDeclaration",
                 name: fnname.name,

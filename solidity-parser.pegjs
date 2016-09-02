@@ -1603,7 +1603,6 @@ ModifierDeclaration
   = ModifierToken __ fnname:ModifierName __ names:ModifierNameList?
     __ body:FunctionBody __
     {
-      console.log ('****', body);
       return {
         type: "ModifierDeclaration",
         name: fnname.name,
