@@ -1,5 +1,7 @@
 // Examples taken from the Solidity documentation online.
 
+pragma solidity ^0.78.19;
+
 import "SomeFile.sol";
 import "SomeFile.sol" as SomeOtherFile;
 import * as SomeSymbol from "AnotherFile.sol";
