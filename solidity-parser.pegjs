@@ -107,6 +107,15 @@
   function optionalList(value) {
     return value !== null ? value : [];
   }
+
+  function normalizeVersionLiteral(item) {
+    if (item.constructor.name === 'Array') {
+      item [1] = item [1].join ('');
+      item = item.join ('');
+    }
+
+    return item;
+  }
 }
 
 Start
@@ -219,7 +228,9 @@ Keyword
   / InstanceofToken
   / InToken
   / NewToken
+  / PragmaToken
   / ReturnToken
+  / SolidityToken
   / SwitchToken
   / ThisToken
   / ThrowToken
@@ -243,6 +254,7 @@ Literal
   / NumericLiteral
   / StringLiteral
   / RegularExpressionLiteral
+  / VersionLiteral
 
 NullLiteral
   = NullToken { return { type: "Literal", value: null, start: location().start.offset, end: location().end.offset }; }
@@ -431,6 +443,11 @@ RegularExpressionClassChar
 RegularExpressionFlags
   = IdentifierPart*
 
+VersionLiteral
+  = major:DecimalIntegerLiteral "." minor:DecimalIntegerLiteral "." patch:DecimalIntegerLiteral {
+    return (normalizeVersionLiteral(major) + "." + normalizeVersionLiteral(minor) + "." + normalizeVersionLiteral(patch));
+  }
+
 /*
  * Unicode Character Categories
  *
@@ -534,11 +551,13 @@ ModifierToken   = "modifier"   !IdentifierPart
 NewToken        = "new"        !IdentifierPart
 NullToken       = "null"       !IdentifierPart
 PrivateToken    = "private"    !IdentifierPart
+PragmaToken     = "pragma"     !IdentifierPart
 PublicToken     = "public"     !IdentifierPart
 ReturnToken     = "return"     !IdentifierPart
 ReturnsToken    = "returns"    !IdentifierPart
 SecondsToken    = "seconds"    !IdentifierPart
 SetToken        = "set"        !IdentifierPart
+SolidityToken   = "solidity"   !IdentifierPart
 StorageToken    = "storage"    !IdentifierPart
 StructToken     = "struct"     !IdentifierPart
 SuperToken      = "super"      !IdentifierPart
@@ -1101,6 +1120,7 @@ ExpressionNoIn
 
 Statement
   = Block
+  / PragmaStatement
   / VariableStatement
   / EmptyStatement
   / ExpressionStatement
@@ -1248,6 +1268,17 @@ IfStatement
         end: location().end.offset
       };
     }
+
+PragmaStatement
+  = PragmaToken __ SolidityToken __ isUpwardCompatible:("^" / "") version:VersionLiteral {
+    return {
+      type: "PragmaStatement",
+      version: version,
+      upward_compatible: isUpwardCompatible === "",
+      start: location().start.offset,
+      end: location().end.offset
+    }
+  }
 
 ImportStatement
   = ImportToken __ from:StringLiteral __ alias:(AsToken __ Identifier)? __ EOS
