@@ -22,7 +22,7 @@ contract c {
 }
 
 contract test {
-    enum ActionChoices { GoLeft, GoRight, GoStraight, SitStill };
+    enum ActionChoices { GoLeft, GoRight, GoStraight, SitStill }
     function test()
     {
         choices = ActionChoices.GoStraight;

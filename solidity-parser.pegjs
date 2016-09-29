@@ -593,11 +593,6 @@ EOS
   / _ &"}"
   / __ EOF
 
-EOS_NO_SEMICOLON
-  = _ SingleLineComment? LineTerminatorSequence
-  / _ &"}"
-  / __ EOF
-
 EOF
   = !.
 
@@ -1736,7 +1731,7 @@ FunctionBody
     }
 
 EnumDeclaration
-  = EnumToken __ id:Identifier __ "{" __ head:Identifier tail:( __ "," __ Identifier)* __ "}" __ EOS_NO_SEMICOLON
+  = EnumToken __ id:Identifier __ "{" __ head:Identifier tail:( __ "," __ Identifier)* __ "}"
   {
     return {
       type: "EnumDeclaration",
