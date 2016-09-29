@@ -1731,7 +1731,7 @@ FunctionBody
     }
 
 EnumDeclaration
-  = EnumToken __ id:Identifier __ "{" __ head:Identifier tail:( __ "," __ Identifier)* __ "}"
+  = EnumToken __ id:Identifier __ "{" __ head:Identifier tail:( __ "," __ Identifier)* __ "}" !";"
   {
     return {
       type: "EnumDeclaration",
@@ -1743,7 +1743,7 @@ EnumDeclaration
   }
 
 StructDeclaration
-  = StructToken __ id:Identifier __ "{" __ body:DeclarativeExpressionList? __ "}"
+  = StructToken __ id:Identifier __ "{" __ body:DeclarativeExpressionList? __ "}" !";"
   {
     return {
       type: "StructDeclaration",
