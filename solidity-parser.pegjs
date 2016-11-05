@@ -1265,7 +1265,7 @@ IfStatement
     }
 
 PragmaStatement
-  = PragmaToken __ SolidityToken __ isUpwardCompatible:("^" / "") version:VersionLiteral {
+  = PragmaToken __ SolidityToken __ isUpwardCompatible:("^" / "") version:VersionLiteral __ EOS {
     return {
       type: "PragmaStatement",
       version: version,
