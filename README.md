@@ -1,3 +1,6 @@
+# [DISCONTINUED]
+Maintenance of this project has been discontinued and all changes & fixes introduced by the author of solparse have been applied into [solidity-parser](https://github.com/ConsenSys/solidity-parser) - all thanks to a handful of really awesome developers maintaining solidity-parser!
+
 # solparse
 Parse Solidity Code into Spider Monkey API compliant AST
 
