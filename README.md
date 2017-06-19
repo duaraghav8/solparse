@@ -1,31 +1,126 @@
-# solparse
-Parse Solidity Code into Spider Monkey API compliant AST
+[![npm](https://img.shields.io/npm/v/solidity-parser.svg)]()
+[![npm](https://img.shields.io/npm/dm/solidity-parser.svg)]()
+[![Build Status](https://travis-ci.org/ConsenSys/solidity-parser.svg?branch=master)](https://travis-ci.org/ConsenSys/solidity-parser)
 
-#UPDATE
-All changes have now been merged into [solidity-parser](https://github.com/ConsenSys/solidity-parser) (thanks to **axic** and **tcoulter**). I'll continue to maintain this repo until all reported issues have been fixed and once those changes are merged into solidity-parser, this repo's maintenance will be discontinued. (And solidity-parser shall be flawless by then ;) )
+# Solidity Parser
 
-This is a (much more) refined version of [solidity-parser](https://github.com/ConsenSys/solidity-parser). 
-I've fixed a lot of bugs (see below) and added features as per solidity grammar spec (but obviously its not perfect a.t.m.). I plan to maintain it long-term =)
+A Solidity parser in Javascript. So we can evaluate and alter Solidity code without resorting to cruddy preprocessing.  
 
-#List of bugs in solidity-parser (as of this writing)
+### ⚠️ WARNING ⚠️
 
-1. No 'name' field in StructDeclaration - this means we never get to know the name of the struct from the StructDeclaration Node object. (**I made a PR for this but no response even after 2 weeks :(**)
+This is pre-alpha software. The goal of it is to take Solidity code as input and return an object as output that can be used to correctly describe that Solidity code. The structure of the resultant object is highly likely to change as the parser's features get filled out. **This parser is set to ignore Solidity constructs it's not yet able to handle.** Or, it might just error. So watch out.
 
-3. IsStatement malfunctioning - When using inheritance with Contract or Library, the syntax is:
+### Usage
+
+**Library**
 
 ```
-contract Car is Vehicle, Engine {
-        //definition
+npm install solidity-parser
+```
+
+Then, in your code:
+
+```javascript
+var SolidityParser = require("solidity-parser");
+
+// Parse Solidity code as a string:
+var result = SolidityParser.parse("contract { ... }");
+
+// Or, parse a file:
+var result = SolidityParser.parseFile("./path/to/file.sol");
+```
+
+You can also parse a file specifically for its imports. This won't return an abstract syntax tree, but will instead return a list of files required by the parsed file:
+
+```javascript
+
+var SolidityParser = require("solidity-parser");
+
+var result = SolidityParser.parseFile("./path/to/file.sol", "imports");
+
+console.log(result);
+// [
+//   "SomeFile.sol",
+//   "AnotherFile.sol"
+// ]
+```
+
+**Command Line** (for convenience)
+
+```
+$ solidity-parser ./path/to/file.js
+```
+
+### Results
+
+Consider this solidity code as input:
+
+```
+import "Foo.sol";
+
+contract MyContract {
+  mapping (uint => address) public addresses;
 }
 ```
 
-Solidity parser doesn't parse the 'is' section properly. the is Array's first object is fine (vehicle), but subsequent element is just a comma, not another object for Engine.
+You'll receiving the following (or something very similar) as output. Note that the structure of mappings could be made more clear, and this will likely be changed in the future.
 
-4. Exponentiation operator (double asterisk) not being parsed by solidity parser
+```json
+{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ImportStatement",
+      "value": "Foo.sol"
+    },
+    {
+      "type": "ContractStatement",
+      "name": "MyContract",
+      "is": [],
+      "body": [
+        {
+          "type": "ExpressionStatement",
+          "expression": {
+            "type": "DeclarativeExpression",
+            "name": "addresses",
+            "literal": {
+              "type": "Type",
+              "literal": {
+                "type": "MappingExpression",
+                "from": {
+                  "type": "Type",
+                  "literal": "uint",
+                  "members": [],
+                  "array_parts": []
+                },
+                "to": {
+                  "type": "Type",
+                  "literal": "address",
+                  "members": [],
+                  "array_parts": []
+                }
+              },
+              "members": [],
+              "array_parts": []
+            },
+            "is_constant": false,
+            "is_public": true
+          }
+        }
+      ]
+    }
+  ]
+}
+```
 
-5. A statement like ```uint x = 2 days;``` doesn't get parsed. It gives error at start of 'days'. (though SP parses the other tokens: "2 wei / 2 szabo / 2 finny, etc.", "days" is a valid suffix too but doesn't have support.
+### Test
 
-6. Parse of ```var (x) = 100;``` failing because x is surrounded by brackets (which is legal in solidity).
+In a checkout of the project, run:
 
-All these bugs have been fixed in solparse!
-If you find a bug or a missing feature in this parser, please open up an issue :)
+```
+$ npm test
+```
+
+### License
+
+MIT

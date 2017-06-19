@@ -127,9 +127,12 @@ ContractToken   = "contract"  !IdentifierPart
 FromToken       = "from"      !IdentifierPart
 ForToken        = "for"       !IdentifierPart
 ImportToken     = "import"    !IdentifierPart
+InterfaceToken  = "interface" !IdentifierPart
 IsToken         = "is"        !IdentifierPart
 LibraryToken    = "library"   !IdentifierPart
 MappingToken    = "mapping"   !IdentifierPart
+PragmaToken     = "pragma"    !IdentifierPart
+SolidityToken   = "solidity"  !IdentifierPart
 UsingToken      = "using"     !IdentifierPart
 
 /* Skipped */
@@ -205,10 +208,21 @@ UnicodeConnectorPunctuation
 /* ----- A.4 Statements ----- */
 
 Statement
-  = ImportStatement
+  = PragmaStatement
+  / ImportStatement
   / ContractStatement
+  / InterfaceStatement
   / LibraryStatement
   / UsingStatement
+
+PragmaStatement
+  = PragmaToken __ SolidityToken __ ([^;]+) EOS {
+    return {
+      type: "PragmaStatement",
+      start: location().start.offset,
+      end: location().end.offset
+    }
+  }
 
 ImportStatement
   = ImportToken __ from:StringLiteral __ alias:(AsToken __ Identifier)? __ EOS
@@ -261,6 +275,13 @@ ContractStatement
   {
     return undefined
   }
+
+InterfaceStatement
+  = InterfaceToken __ id:Identifier __ BlockList
+  {
+    return undefined
+  }
+
 
 LibraryStatement
   = LibraryToken __ id:Identifier __ is:IsStatement? __ BlockList
@@ -417,7 +438,7 @@ SourceElements
     }
 
 BlockList
-  = __ "{" __ ( Comment / BlockList / NonClosingBracketCharacter )* __ "}"
+  = __ "{" __ ( Comment / BlockList / StringLiteral / NonClosingBracketCharacter )* __ "}"
 
 NonClosingBracketCharacter
   = (!("}") SourceCharacter)

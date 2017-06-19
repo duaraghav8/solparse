@@ -1,11 +1,24 @@
 // Examples taken from the Solidity documentation online.
 
-pragma solidity ^0.78.19;
+// for pragma version numbers, see https://docs.npmjs.com/misc/semver#versions
+pragma solidity 0.4.0;
+pragma solidity v0.4.0; // like npm
+pragma solidity ^0.4.0;
+pragma solidity >= 0.4.0;
+pragma solidity <= 0.4.0;
+pragma solidity < 0.4.0;
+pragma solidity > 0.4.0;
+pragma solidity != 0.4.0;
+pragma solidity >=0.4.0 <0.4.8; // from https://github.com/ethereum/solidity/releases/tag/v0.4.0
 
 import "SomeFile.sol";
 import "SomeFile.sol" as SomeOtherFile;
 import * as SomeSymbol from "AnotherFile.sol";
 import {symbol1 as alias, symbol2} from "File.sol";
+
+interface i {
+  function f();
+}
 
 contract c {
   function c()
@@ -23,6 +36,7 @@ contract c {
 
 contract test {
     enum ActionChoices { GoLeft, GoRight, GoStraight, SitStill }
+
     function test()
     {
         choices = ActionChoices.GoStraight;
@@ -177,7 +191,7 @@ contract DualIndex {
   mapping(uint => mapping(uint => uint)) data;
   address public admin;
 
-  modifier restricted { if (msg.sender == admin) _ }
+  modifier restricted { if (msg.sender == admin) _; }
 
   function DualIndex() {
     admin = msg.sender;
@@ -219,3 +233,165 @@ contract TestInternal
   uint internal value;
 }
 
+contract FromSolparse is A, B, TestPrivate, TestInternal {
+  function() {
+    uint a = 6 ** 9;
+    var (x) = 100;
+    uint y = 2 days;
+  }
+}
+
+contract CommentedOutFunction {
+  // FYI: This empty function, as well as the commented
+  // out function below (bad code) is important to this test.
+  function() {
+
+  }
+
+  // function something()
+  //  uint x = 10;
+  // }
+}
+
+library VarHasBrackets {
+	string constant specialRight = "}";
+	//string storage specialLeft = "{";
+}
+
+library UsingExampleLibrary {
+  function sum(uint[] storage self) returns (uint s) {
+    for (uint i = 0; i < self.length; i++)
+      s += self[i];
+  }
+}
+
+contract UsingExampleContract {
+  using UsingExampleLibrary for uint[];
+}
+
+contract NewStuff {
+  uint[] b;
+
+  function someFunction() payable {
+    string storage a = hex"ab1248fe";
+    b[2+2];
+  }
+}
+
+// modifier with expression
+contract MyContract {
+  function fun() mymodifier(foo.bar()) {}
+}
+
+library GetCode {
+    function at(address _addr) returns (bytes o_code) {
+        assembly {
+            // retrieve the size of the code, this needs assembly
+            let size := extcodesize(_addr)
+            // allocate output byte array - this could also be done without assembly
+            // by using o_code = new bytes(size)
+            o_code := mload(0x40)
+            // new "memory end" including padding
+            mstore(0x40, add(o_code, and(add(add(size, 0x20), 0x1f), not(0x1f))))
+            // store length in memory
+            mstore(o_code, size)
+            // actually retrieve the code, this needs assembly
+            extcodecopy(_addr, add(o_code, 0x20), 0, size)
+        }
+    }
+}
+
+contract assemblyLocalBinding {
+  function test(){
+    assembly {
+      let v := 1
+      let x := 0x00
+      let y := x
+      let z := "hello" 
+    }
+  }
+}
+
+contract usesConst {
+  uint const = 0;
+}
+
+contract memoryArrays {
+  uint seven = 7;
+
+  function returnNumber(uint number) returns (uint){
+    return number;
+  }
+
+  function alloc() {
+    uint[] memory a = new uint[](7);
+    uint[] memory b = new uint[](returnNumber(seven));
+  }
+}
+
+contract DeclarativeExpressions {
+  uint a;
+  uint b = 7;
+  uint b2=0;
+  uint public c;
+  uint constant public d;
+  uint public constant e;
+  uint private constant f = 7;
+  struct S { uint q;}
+
+  function ham(S storage s1, uint[] storage arr) internal {
+    uint x;
+    uint y = 7;
+    S storage s2 = s1;
+    uint[] memory stor;
+    uint[] storage stor2 = arr;
+  }
+}
+
+contract VariableDeclarationTuple {
+  function getMyTuple() returns (bool, bool){
+    return (true, false);
+  }
+  
+  function ham (){
+    var (x, y) = (10, 20);
+    var (a, b) = getMyTuple();
+    var (,c) = (10, 20);
+    var (d,,) = (10, 20, 30);
+    var (,e,,f,) = (10, 20, 30, 40, 50);
+
+    var (
+      num1, num2,
+      num3, ,num5
+    ) = (10, 20, 30, 40, 50);
+  }
+}
+
+contract TypeIndexSpacing {
+  uint [ 7 ] x;
+  uint  []  y;
+}
+
+contract Ballot {
+
+    struct Voter {
+        uint weight;
+        bool voted;
+    }
+
+    function abstain() returns (bool) {
+      return false;
+    }
+
+    Voter you = Voter(1, true);
+
+    Voter me = Voter({
+        weight: 2,
+        voted: abstain()
+    });
+
+    Voter airbnb = Voter({
+      weight: 2,
+      voted: true,
+    });
+}

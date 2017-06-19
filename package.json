@@ -1,20 +1,44 @@
 {
-  "name": "solparse",
-  "version": "1.0.15",
+  "name": "solidity-parser",
+  "version": "0.3.0",
   "description": "PEG.js Solidity parser for Javascript",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/pegjs ./solidity.pegjs ./build/parser.js && ./node_modules/.bin/pegjs ./imports.pegjs ./build/imports_parser.js",
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "prepublish": "npm run build",
+    "build": "mkdirp ./build && pegjs -o ./build/parser.js ./solidity.pegjs && pegjs -o ./build/imports_parser.js ./imports.pegjs",
+    "test": "mocha --timeout 5000 --reporter spec",
+    "lint": "eslint ."
   },
   "bin": {
     "solidity-parser": "./cli.js"
   },
-  "author": "Tim Coulter <tim@timothyjcoulter.com> (http://timothyjcoulter.com), Raghav Dua <duaraghav8@gmail.com> (http://raghavdua.com)",
+  "contributors": [
+    {
+      "name": "Tim Coulter",
+      "email": "tim@timothyjcoulter.com",
+      "url": "http://timothyjcoulter.com"
+    },
+    {
+      "name": "Raghav Dua",
+      "email": "duaraghav8@gmail.com",
+      "url": "http://raghavdua.com"
+    },
+    {
+      "name": "Federico Bond",
+      "email": "federicobond@gmail.com"
+    },
+    {
+      "name": "Christopher Gewecke",
+      "email": "christophergewecke@gmail.com"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "mocha": "^2.4.5",
-    "pegjs": "^0.9.0",
+    "pegjs": "^0.10.0",
     "yargs": "^4.6.0"
+  },
+  "devDependencies": {
+    "mkdirp": "^0.5.1"
   }
 }
