@@ -1,7 +1,5 @@
-[![npm](https://img.shields.io/npm/v/solidity-parser.svg)]()
-[![npm](https://img.shields.io/npm/dm/solidity-parser.svg)]()
-[![Build Status](https://travis-ci.org/ConsenSys/solidity-parser.svg?branch=master)](https://travis-ci.org/ConsenSys/solidity-parser)
-
+Solparse is a fork of Consensys' solidity-parser. This is temporary and will be deleted once the original SP makes a new release (as of now, I don't know their next release status)
+My projects depend on latest (unreleaed) version of solidity, hence the need to fork.
 # Solidity Parser
 
 A Solidity parser in Javascript. So we can evaluate and alter Solidity code without resorting to cruddy preprocessing.  
