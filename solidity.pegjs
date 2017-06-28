@@ -1395,7 +1395,7 @@ FunctionDeclaration
     }
 
 ReturnsDeclaration
-  = ReturnsToken __ params:("(" __ InformalParameterList? __ ")")
+  = ReturnsToken __ params:("(" __ InformalParameterList __ ")")
   {
     return params != null ? params [2] : null;
   }
