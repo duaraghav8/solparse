@@ -254,8 +254,8 @@ contract CommentedOutFunction {
 }
 
 library VarHasBrackets {
-	string constant specialRight = "}";
-	//string storage specialLeft = "{";
+  string constant specialRight = "}";
+  //string storage specialLeft = "{";
 }
 
 library UsingExampleLibrary {
@@ -317,10 +317,10 @@ contract assemblyReturn {
 
   function get() constant returns(uint) {
     assembly {
-      mstore(0x40, sload(0))
-      byte(0)
-      address(0)
-      retur(0x40,32)
+        mstore(0x40, sload(0))
+        byte(0)
+        address(0)
+        return(0x40,32)
     }
   }
 }
@@ -396,6 +396,9 @@ contract Ballot {
       return false;
     }
 
+    function foobar() payable owner (myPrice) returns (uint[], address myAdd, string[] names) {}
+    function foobar() payable owner (myPrice) returns (uint[], address myAdd, string[] names);
+
     Voter you = Voter(1, true);
 
     Voter me = Voter({
@@ -407,4 +410,11 @@ contract Ballot {
       weight: 2,
       voted: true,
     });
+}
+
+contract multilineReturn {
+  function a() returns (uint x) {
+    return
+      5;
+  }
 }
