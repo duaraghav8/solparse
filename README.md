@@ -1,5 +1,5 @@
-Solparse is a fork of Consensys' solidity-parser. This is temporary and will be deleted once the original SP makes a new release (as of now, I don't know their next release status)
-My projects depend on latest (unreleaed) version of solidity, hence the need to fork.
+Solparse is a fork of Consensys' solidity-parser. Solium is heavily dependant on a parser for operating on the AST and so I needed full control over whichever parse was added as a depandancy to the linter. Hence, the fork which I maintain and have the flexibility to release whenever I need to.
+
 # Solidity Parser
 
 A Solidity parser in Javascript. So we can evaluate and alter Solidity code without resorting to cruddy preprocessing.  
