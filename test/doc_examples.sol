@@ -307,7 +307,13 @@ contract assemblyLocalBinding {
       let v := 1
       let x := 0x00
       let y := x
-      let z := "hello" 
+      let z := "hello"
+
+      a := 0
+      b := 90172
+      c := myVariable
+      d := foobar()
+      e := "lala"
     }
   }
 }

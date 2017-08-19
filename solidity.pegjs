@@ -1601,7 +1601,7 @@ AssemblyLocalBinding
   }
 
 AssemblyAssignment
-  = name:Identifier __ ':=' __ expression:FunctionalAssemblyInstruction {
+  = name:Identifier __ ':=' __ expression:AssemblyExpression {
     return {
       type: "AssemblyAssignment",
       name: name,
