@@ -389,7 +389,9 @@ VersionLiteral
     return {
       type: "VersionLiteral",
       operator: operator,
-      version: (normalizeVersionLiteral(major) + "." + normalizeVersionLiteral(minor) + "." + normalizeVersionLiteral(patch))
+      version: (normalizeVersionLiteral(major) + "." + normalizeVersionLiteral(minor) + "." + normalizeVersionLiteral(patch)),
+      start: location().start.offset,
+      end: location().end.offset
     };
   }
 
@@ -960,9 +962,13 @@ AssignmentOperator
 
 Expression
   = head:AssignmentExpression tail:(__ "," __ AssignmentExpression)* {
-      return tail.length > 0
-        ? { type: "SequenceExpression", expressions: buildList(head, tail, 3) }
-        : head;
+      return tail.length > 0 ?
+        {
+          type: "SequenceExpression",
+          expressions: buildList(head, tail, 3),
+          start: location().start.offset,
+          end: location().end.offset
+        } : head;
     }
 
 /* ----- A.4 Statements ----- */
@@ -1121,16 +1127,12 @@ ImportStatement
       end: location().end.offset
     }
   }
-  / ImportToken __ "*" __ AsToken __ alias:Identifier __ FromToken __ from:StringLiteral __ EOS
+  / ImportToken __ symbol:GlobalSymbol __ FromToken __ from:StringLiteral __ EOS
   {
     return {
       type: "ImportStatement",
       from: from.value,
-      symbols: [{
-        type: "Symbol",
-        name: "*",
-        alias: alias.name
-      }],
+      symbols: [symbol],
       start: location().start.offset,
       end: location().end.offset
     }
@@ -1185,6 +1187,18 @@ Symbol
     };
   }
 
+GlobalSymbol
+  = name:"*" __ alias:(AsToken __ Identifier)
+  {
+    return {
+      type: "Symbol",
+      name: "*",
+      alias: alias[2].name,
+      start: location().start.offset,
+      end: location().end.offset
+    }
+  }
+
 IterationStatement
   = DoToken __
     body:Statement __
@@ -1223,7 +1237,9 @@ IterationStatement
         type:   "ForStatement",
         init:   {
           type:         "VariableDeclaration",
-          declarations: declarations
+          declarations: declarations,
+          start: location().start.offset,
+          end: location().end.offset
         },
         test:   extractOptional(test, 0),
         update: extractOptional(update, 0),
