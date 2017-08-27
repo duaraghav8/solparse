@@ -1479,7 +1479,7 @@ InformalParameter
     return {
       type: "InformalParameter",
       literal: type,
-      id: (id || {}).name,
+      id: id || null,
       is_indexed: isindexed != null,
       is_storage: isconstant != null,
       is_storage: isstorage != null,
