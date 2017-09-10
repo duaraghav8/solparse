@@ -1591,6 +1591,7 @@ AssemblyItem
   / InlineAssemblyBlock
   / AssemblyLocalBinding
   / AssemblyAssignment
+  / AssemblyLabel
   / NumericLiteral
   / StringLiteral
   / HexStringLiteral
@@ -1651,6 +1652,16 @@ FunctionalAssemblyInstruction
       type: "FunctionalAssemblyInstruction",
       name: name,
       arguments: buildList(head, tail, 2),
+      start: location().start.offset,
+      end: location().end.offset
+    }
+  }
+
+AssemblyLabel
+  = name:(Identifier) __ ':' {
+    return {
+      type: "AssemblyLabel",
+      name: name,
       start: location().start.offset,
       end: location().end.offset
     }
