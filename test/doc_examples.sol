@@ -297,6 +297,10 @@ library GetCode {
             mstore(o_code, size)
             // actually retrieve the code, this needs assembly
             extcodecopy(_addr, add(o_code, 0x20), 0, size)
+
+            // label
+            foobar:
+              jumpi(foobar, eq(0,0))
         }
     }
 }
