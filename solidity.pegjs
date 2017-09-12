@@ -1260,7 +1260,7 @@ InlineAssemblyStatement
   }
 
 PlaceholderStatement
-  = "_" __ EOS {
+  = "_" (__ EOS)? {
     return {
       type: "PlaceholderStatement",
       start: location().start.offset,

@@ -191,7 +191,15 @@ contract DualIndex {
   mapping(uint => mapping(uint => uint)) data;
   address public admin;
 
+  // Placeholder statement (both with & without semicolon should be parsed)
   modifier restricted { if (msg.sender == admin) _; }
+  modifier restricted { if (msg.sender == admin) _ }
+  modifier restricted {
+    foobar();
+    _
+
+                  ;
+  }
 
   function DualIndex() {
     admin = msg.sender;
