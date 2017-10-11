@@ -469,6 +469,7 @@ ElseToken       = "else"       !IdentifierPart
 EnumToken       = "enum"       !IdentifierPart
 EtherToken      = "ether"      !IdentifierPart
 EventToken      = "event"      !IdentifierPart
+ExperimentalToken      = "experimental"      !IdentifierPart
 ExportToken     = "export"     !IdentifierPart
 ExtendsToken    = "extends"    !IdentifierPart
 FalseToken      = "false"      !IdentifierPart
@@ -1110,6 +1111,14 @@ PragmaStatement
       type: "PragmaStatement",
       start_version: start_version,
       end_version: end_version,
+      start: location().start.offset,
+      end: location().end.offset
+    }
+  }
+  / PragmaToken __ ExperimentalToken __ featureName:(Identifier / StringLiteral) EOS {
+    return {
+      type: "ExperimentalPragmaStatement",
+      feature: featureName,
       start: location().start.offset,
       end: location().end.offset
     }

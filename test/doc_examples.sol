@@ -11,6 +11,14 @@ pragma solidity > 0.4.0;
 pragma solidity != 0.4.0;
 pragma solidity >=0.4.0 <0.4.8; // from https://github.com/ethereum/solidity/releases/tag/v0.4.0
 
+
+// Pragma statements that enable experimental (breaking) features
+pragma experimental "SMTChecker";
+pragma experimental     ABIEncoderV2;
+pragma experimental "v0.5.0";
+pragma experimental     __test;
+pragma experimental     __testOnlyAnalysis;
+
 import "SomeFile.sol";
 import "SomeFile.sol" as SomeOtherFile;
 import * as SomeSymbol from "AnotherFile.sol";
