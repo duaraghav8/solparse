@@ -983,8 +983,8 @@ Statement
   = Block
   / VariableStatement
   / EmptyStatement
-  / PlaceholderStatement
   / ExpressionStatement
+  / PlaceholderStatement
   / IfStatement
   / IterationStatement
   / InlineAssemblyStatement
