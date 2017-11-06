@@ -1,6 +1,6 @@
 {
   "name": "solparse",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "PEG.js Solidity parser for Javascript",
   "main": "index.js",
   "scripts": {
@@ -34,9 +34,9 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "mocha": "^2.4.5",
+    "mocha": "^4.0.1",
     "pegjs": "^0.10.0",
-    "yargs": "^4.6.0"
+    "yargs": "^10.0.3"
   },
   "devDependencies": {
     "mkdirp": "^0.5.1"
