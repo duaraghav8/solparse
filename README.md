@@ -16,6 +16,7 @@ This is pre-alpha software. The goal of it is to take Solidity code as input and
 
 Then, in your code:
 
+```
     const SolidityParser = require('solidity-parser');
 
     // Parse Solidity code as a string:
