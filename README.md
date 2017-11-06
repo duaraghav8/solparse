@@ -27,14 +27,14 @@ Then, in your code:
 
 You can also parse a file specifically for its imports. This won't return an abstract syntax tree, but will instead return a list of files required by the parsed file:
 
-    var SolidityParser = require("solidity-parser");
+    const SolidityParser = require('solidity-parser');
 
-    var result = SolidityParser.parseFile("./path/to/file.sol", "imports");
+    const result = SolidityParser.parseFile('./path/to/file.sol', 'imports');
 
     console.log(result);
     // [
-    //   "SomeFile.sol",
-    //   "AnotherFile.sol"
+    //   'SomeFile.sol',
+    //   'AnotherFile.sol'
     // ]
 
 **Command Line** (for convenience)
