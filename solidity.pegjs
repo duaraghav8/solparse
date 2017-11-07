@@ -37,7 +37,7 @@
 {
   var TYPES_TO_PROPERTY_NAMES = {
     CallExpression:   "callee",
-    MemberExpression: "object",
+    MemberExpression: "object"
   };
 
   function filledArray(count, value) {
@@ -590,12 +590,23 @@ MemberExpression
   = head:(
         PrimaryExpression
       / NewToken __ callee:Type __ args:Arguments {
-          return { type: "NewExpression", callee: callee, arguments: args, start: location().start.offset, end: location().end.offset };
+          return {
+            type: "NewExpression",
+            callee: callee,
+            arguments: args,
+            start: location().start.offset,
+            end: location().end.offset
+          };
         }
     )
     tail:(
         __ "[" __ property:Expression __ "]" {
-          return { property: property, computed: true, start: location().start.offset, end: location().end.offset };
+          return {
+            property: property,
+            computed: true,
+            start: location().start.offset,
+            end: location().end.offset
+          };
         }
       / __ "." __ property:IdentifierName {
           return { property: property, computed: false, start: location().start.offset, end: location().end.offset };
@@ -653,6 +664,12 @@ CallExpression
       return buildTree(head, tail, function(result, element) {
         element[TYPES_TO_PROPERTY_NAMES[element.type]] = result;
 
+        // Fix the start position of all nodes (ORIGIN: https://github.com/duaraghav8/Solium/issues/104)
+        // The MemberExpression node's start property doesnt cover the entire previous code
+        // eg - "ab.cd()[10]" the node.start points to '[' instead of 'a'
+        // Same issue with CallExpression
+
+        element.start = location().start.offset;
         return element;
       });
     }
