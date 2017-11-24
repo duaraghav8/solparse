@@ -542,7 +542,16 @@ PrimaryExpression
   / Identifier
   / Literal
   / ArrayLiteral
-  / "(" __ expression:Expression __ ")" { return expression; }
+  / "(" __ expression:Expression __ ")" {
+      /*
+        Need to modify the location here so the position takes into account the "(" & ")".
+        Else "(a, b)" (for eg) results in incorrect position.
+      */
+      expression.start = location().start.offset;
+      expression.end = location().end.offset;
+
+      return expression;
+    }
 
 ArrayLiteral
   = "[" __ elision:(Elision __)? "]" {
