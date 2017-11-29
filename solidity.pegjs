@@ -988,14 +988,26 @@ AssignmentOperator
   / "|="
 
 Expression
-  = head:AssignmentExpression tail:(__ "," __ AssignmentExpression)* {
-      return tail.length > 0 ?
-        {
-          type: "SequenceExpression",
-          expressions: buildList(head, tail, 3),
-          start: location().start.offset,
-          end: location().end.offset
-        } : head;
+  = head:AssignmentExpression? tail:(__ "," __ AssignmentExpression?)* {
+      if (tail.length < 1) {
+        return head;
+      }
+
+      // Below is a hack to successfully parse "(, a, , b, c,,,)" so expressions array only contains a, b & c
+      // Hack is all we require since we're moving to a new parse very soon anyway :)
+
+      var expressions = buildList(head, tail, 3), finalExpr = [];
+
+      for (var i = 0; i < expressions.length; i++) {
+        if (expressions[i] !== null) { finalExpr.push(expressions[i]); }
+      }
+
+      return {
+        type: "SequenceExpression",
+        expressions: finalExpr,
+        start: location().start.offset,
+        end: location().end.offset
+      };
     }
 
 /* ----- A.4 Statements ----- */

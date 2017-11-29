@@ -253,6 +253,9 @@ contract FromSolparse is A, B, TestPrivate, TestInternal {
   function() {
     uint a = 6 ** 9;
     var (x) = 100;
+    var (a, b, c, fo, bangy) = callMyFunc();
+    var (a, b, c, fo, bangy) = (1,2,3,4,5);
+    (a, b, c, fo, bangy) = (10,20,30,40,50);
     uint y = 2 days;
   }
 }
