@@ -1,6 +1,6 @@
 {
   "name": "solparse",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "PEG.js Solidity parser for Javascript",
   "main": "index.js",
   "scripts": {
