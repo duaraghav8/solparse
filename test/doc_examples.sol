@@ -358,6 +358,7 @@ contract usesConst {
   uint const = 0;
 }
 
+/*************/
 contract memoryArrays {
   uint seven = 7;
 
@@ -390,6 +391,7 @@ contract DeclarativeExpressions {
   }
 }
 
+/* random comment */
 contract VariableDeclarationTuple {
   function getMyTuple() returns (bool, bool){
     return (true, false);
@@ -414,6 +416,9 @@ contract TypeIndexSpacing {
   uint  []  y;
 }
 
+/**
+ Ballot contract
+ */
 contract Ballot {
 
     struct Voter {
@@ -447,3 +452,5 @@ contract multilineReturn {
       5;
   }
 }
+
+//end of file

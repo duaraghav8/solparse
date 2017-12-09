@@ -7,7 +7,7 @@
     "prepublish": "npm run build",
     "build": "mkdirp ./build && pegjs -o ./build/parser.js ./solidity.pegjs && pegjs -o ./build/imports_parser.js ./imports.pegjs",
     "test": "mocha --timeout 5000 --reporter spec",
-    "lint": "eslint ."
+    "lint": "eslint index.js test/ cli.js"
   },
   "bin": {
     "solidity-parser": "./cli.js"
@@ -34,7 +34,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "antlr4": "^4.7.0",
     "mocha": "^4.0.1",
     "pegjs": "^0.10.0",
     "yargs": "^10.0.3"

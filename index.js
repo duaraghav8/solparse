@@ -4,40 +4,27 @@ const PEG = require("pegjs");
 const fs = require("fs");
 const path = require("path");
 
-const antlr4 = require("antlr4");
-const SolidityLexer = require("./antlr/SolidityLexer").SolidityLexer;
-const SolidityParser = require("./antlr/SolidityParser").SolidityParser;
-
 const builtParsers = {
     "solidity": require("./build/parser"),
     "imports": require("./build/imports_parser")
 };
 
 
-function parseComments(code) {
-    const chars = new antlr4.InputStream(code);
-    const lexer = new SolidityLexer(chars);
-    const tokens  = new antlr4.CommonTokenStream(lexer);
-    const parser = new SolidityParser(tokens);
+function parseComments(sourceCode) {
+    const comments = [], commentParser = /(\/\*.*\*\/)|(\/\/[^\n]*)/g;
+    let nextComment;
 
-    parser.buildParseTrees = true;
-    parser.sourceUnit();
+    // eslint-disable-next-line no-cond-assign
+    while (nextComment = commentParser.exec(sourceCode)) {
+        const text = nextComment[0], types = { "//": "Line", "/*": "Block" };
 
-    let comments = tokens.filterForChannel(0, tokens.tokens.length - 1, 1); // 1 is id of channel "HIDDEN"
-
-    comments = comments.map(c => {
-        const commentTypes = {118: "BlockComment", 119: "LineComment"};
-        const {start, stop, line, column, text} = c;
-
-        return {
-            type: commentTypes[c.type],
-            start,
-            end: stop,
-            line,
-            column,
-            text
-        };
-    });
+        comments.push({
+            text,
+            type: types[text.slice(0, 2)],
+            start: nextComment.index,
+            end: nextComment.index + text.length
+        });
+    }
 
     return comments;
 }
