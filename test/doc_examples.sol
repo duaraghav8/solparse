@@ -128,7 +128,7 @@ library IntegerSet
   {
     uint index = self.index[value];
     if (index > 0)
-      return true;
+      return true; ////////////////////
     else
     {
       if (self.items.length == 0) self.items.length = 1;
@@ -423,7 +423,7 @@ contract Ballot {
 
     struct Voter {
         uint weight;
-        bool voted;
+        bool voted; /** yayy **/       /* yayy 2 ****/    /* yayy 3 ****/
     }
 
     function abstain() returns (bool) {
@@ -435,10 +435,15 @@ contract Ballot {
 
     Voter you = Voter(1, true);
 
+    /**/
+    /* hello //world hoa re */
+
     Voter me = Voter({
         weight: 2,
         voted: abstain()
     });
+
+    // now /* inside this!! */ very very good!
 
     Voter airbnb = Voter({
       weight: 2,
@@ -447,6 +452,14 @@ contract Ballot {
 }
 
 contract multilineReturn {
+/*
+Hi my name
+what
+my name is
+who
+my name is
+chika chika slim shady B-)
+*/
   function a() returns (uint x) {
     return
       5;

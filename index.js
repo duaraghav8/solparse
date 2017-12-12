@@ -11,7 +11,8 @@ const builtParsers = {
 
 
 function parseComments(sourceCode) {
-    const comments = [], commentParser = /(\/\*.*\*\/)|(\/\/[^\n]*)/g;
+    // for Line comment regexp, the "." doesn't cover line termination chars so we're good :)
+    const comments = [], commentParser = /(\/\*(\*(?!\/)|[^*])*\*\/)|(\/\/.*)/g;
     let nextComment;
 
     // eslint-disable-next-line no-cond-assign
