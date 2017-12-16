@@ -1428,7 +1428,7 @@ ModifierDeclaration
     }
 
 FunctionDeclaration
-  = FunctionToken __ fnname:FunctionName __ args:ModifierArgumentList? __ returns:ReturnsDeclaration? __ body:FunctionBody
+  = FunctionToken __ fnname:FunctionName __ args:ModifierArgumentList? __ returns:ReturnsDeclarations __ body:FunctionBody
     {
       return {
         type: "FunctionDeclaration",
@@ -1442,7 +1442,7 @@ FunctionDeclaration
         end: location().end.offset
       };
     }
-  / FunctionToken __ fnname:FunctionName __ args:ModifierArgumentList? __ returns:ReturnsDeclaration? __ EOS
+  / FunctionToken __ fnname:FunctionName __ args:ModifierArgumentList? __ returns:ReturnsDeclarations __ EOS
     {
       return {
         type: "FunctionDeclaration",
@@ -1461,6 +1461,20 @@ ReturnsDeclaration
   = ReturnsToken __ params:("(" __ InformalParameterList __ ")")
   {
     return params != null ? params [2] : null;
+  }
+
+ReturnsDeclarations
+  = returnParams:ReturnsDeclaration?
+  {
+    if (returnParams == null) {
+      return null;
+    }
+
+    return {
+      params: returnParams,
+      start: location().start.offset,
+      end: location().end.offset
+    };
   }
     
 
