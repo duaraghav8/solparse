@@ -1471,6 +1471,7 @@ ReturnsDeclarations
     }
 
     return {
+      type: "ReturnParams",
       params: returnParams,
       start: location().start.offset,
       end: location().end.offset
