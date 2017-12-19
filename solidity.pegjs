@@ -1504,12 +1504,18 @@ ModifierName
   }
 
 ModifierArgument
-  = id:Identifier __ params:("(" __ ArgumentList? __ ")")?
+  = id:Identifier params:(__ "(" __ ArgumentList? __ ")")?
   {
+    var p = [];
+
+    if (params != null && params[3] != null) {
+      p = params[3];
+    }
+
     return {
       type: "ModifierArgument",
       name: id != null ? id.name : null,
-      params: params != null ? params[2] : [],
+      params: p,
       start: location().start.offset,
       end: location().end.offset
     };
