@@ -227,8 +227,7 @@ Keyword
   / WhileToken
 
 FutureReservedWord
-  = ClassToken
-  / ExportToken
+  = ExportToken
   / ExtendsToken
 
 Literal
@@ -458,7 +457,6 @@ Zs = [\u0020\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]
 AnonymousToken  = "anonymous"  !IdentifierPart
 AsToken         = "as"         !IdentifierPart
 BreakToken      = "break"      !IdentifierPart
-ClassToken      = "class"      !IdentifierPart
 ConstantToken   = "constant"   !IdentifierPart
 ContinueToken   = "continue"   !IdentifierPart
 ContractToken   = "contract"   !IdentifierPart

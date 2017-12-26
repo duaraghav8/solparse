@@ -45,8 +45,9 @@ contract c {
 contract test {
     enum ActionChoices { GoLeft, GoRight, GoStraight, SitStill }
 
-    function test()
+    function test(uint class)
     {
+        require(class == 100);
         choices = ActionChoices.GoStraight;
     }
     function getChoice() returns (uint d)
