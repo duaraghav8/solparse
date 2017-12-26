@@ -384,7 +384,19 @@ UnicodeEscapeSequence
     }
 
 VersionLiteral
-  = operator:(RelationalOperator / EqualityOperator / BitwiseXOROperator)? __ ("v")? major:DecimalIntegerLiteral "." minor:DecimalIntegerLiteral "." patch:DecimalIntegerLiteral {
+  = operator:(RelationalOperator / EqualityOperator / BitwiseXOROperator)? __ ("v")? major:DecimalIntegerLiteral minor:("." DecimalIntegerLiteral)? patch:("." DecimalIntegerLiteral)? {
+    if (patch === null) {
+      patch = 0;
+    } else {
+      patch = patch[1];
+    }
+
+    if (minor === null) {
+      minor = 0;
+    } else {
+      minor = minor[1];
+    }
+
     return {
       type: "VersionLiteral",
       operator: operator,
