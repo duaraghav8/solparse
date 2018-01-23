@@ -88,6 +88,13 @@ contract Derived is Base(0) {
     function Derived(uint i) Base(i) {}
 }
 
+contract child is ImportedFileAlias.Parent {
+  function blah(){}
+}
+
+contract child is ImportedFileAlias.Parent.Guardian.Of.the.Galaxy, Alias.Foo.Bar("helo world") {}
+contract Foo is Alias.Babbleboo(100), jake.pitty.Poo("hello world"), lolol           {}
+
 contract C {
   uint248 x; // 31 bytes: slot 0, offset 0
   uint16 y; // 2 bytes: slot 1, offset 0 (does not fit in slot 0)

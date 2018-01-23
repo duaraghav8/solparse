@@ -1546,8 +1546,22 @@ ModifierArgumentList
       return buildList(head, tail, 1);
     }
 
+ModifierNameWithAlias
+  = alias:(Identifier ".")* modifier:ModifierName {
+      if (alias.length > 0) {
+        var mergedAlias = alias.reduce(function(result, item) {
+          return result + item[0].name + item[1];
+        }, "");
+
+        modifier.name = mergedAlias + modifier.name;
+        modifier.start = alias[0][0].start;
+      }
+
+      return modifier;
+    }
+
 CommaSeparatedModifierNameList
-  = head:ModifierName tail:( __ "," __ ModifierName)* {
+  = head:ModifierNameWithAlias tail:( __ "," __ ModifierNameWithAlias)* {
       return buildList(head, tail, 3);
     }
 
