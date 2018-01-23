@@ -35,7 +35,7 @@ describe("Parse comments", () => {
         const sourceCode = require("fs").readFileSync("./test/doc_examples.sol", "utf8");
         const comments = SolidityParser.parseComments(sourceCode);
 
-        const expectedCommLen = 59;
+        const expectedCommLen = 60;
 
         if (comments.length !== expectedCommLen) {
             throw new Error(`there should be ${expectedCommLen} comment objects`);

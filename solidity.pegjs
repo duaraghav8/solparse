@@ -1670,6 +1670,7 @@ AssemblyItem
   / AssemblyLocalBinding
   / AssemblyAssignment
   / AssemblyLabel
+  / AssemblyFor
   / NumericLiteral
   / StringLiteral
   / HexStringLiteral
@@ -1743,4 +1744,22 @@ AssemblyLabel
       start: location().start.offset,
       end: location().end.offset
     }
+  }
+
+AssemblyFor
+  = ForToken __
+  init:(InlineAssemblyBlock / FunctionalAssemblyInstruction) __
+  test:FunctionalAssemblyInstruction __
+  update:(InlineAssemblyBlock / FunctionalAssemblyInstruction) __
+  body:InlineAssemblyBlock
+  {
+    return {
+      type: "AssemblyFor",
+      init: init,
+      test: test,
+      update: update,
+      body: body,
+      start: location().start.offset,
+      end: location().end.offset
+    };
   }
