@@ -516,4 +516,15 @@ chika chika slim shady B-)
   }
 }
 
+contract Bar {
+    function(address) external returns (address)[3] private foo;
+    function(uint, string) external returns (address) public bar;
+    function bar(address) external returns (address);
+    
+    function dell(function(int a, bool bcd) payable myFunc) internal {
+        function(address) external returns (address)[3] chumma = foo;
+        function(uint, string) external internal pure  payable 	constant   view returns (address)    [] bax = bar;
+    }
+}
+
 //end of file

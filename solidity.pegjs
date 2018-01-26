@@ -466,6 +466,11 @@ Zs = [\u0020\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]
 
 /* Tokens */
 
+ExperimentalToken      = "experimental"      !IdentifierPart
+ExternalToken   = "external"   !IdentifierPart
+PureToken       = "pure"       !IdentifierPart
+ViewToken       = "view"       !IdentifierPart
+PayableToken    = "payable"    !IdentifierPart
 AnonymousToken  = "anonymous"  !IdentifierPart
 AsToken         = "as"         !IdentifierPart
 BreakToken      = "break"      !IdentifierPart
@@ -479,7 +484,6 @@ ElseToken       = "else"       !IdentifierPart
 EnumToken       = "enum"       !IdentifierPart
 EtherToken      = "ether"      !IdentifierPart
 EventToken      = "event"      !IdentifierPart
-ExperimentalToken      = "experimental"      !IdentifierPart
 ExportToken     = "export"     !IdentifierPart
 ExtendsToken    = "extends"    !IdentifierPart
 FalseToken      = "false"      !IdentifierPart
@@ -739,6 +743,43 @@ Type
       end: location().end.offset
     }
   }
+  / FunctionToken __ funcName:FunctionName __ modifiers:FunctionTypeModifierList? __ returns:ReturnsDeclarations __ parts:(__"[" __ (Expression)? __ "]")*
+    {
+      return {
+        type: "Type",
+        literal: "function",
+        params: funcName.params,
+        return_params: returns,
+        array_parts: optionalList(parts).map(function(p) {return p[3] != null ? p[3].value : null}),
+        modifiers: modifiers,
+        start: location().start.offset,
+        end: location().end.offset
+      };
+    }
+
+FunctionTypeModifier
+  = modifier:(InternalToken / ExternalToken / StateMutabilitySpecifier) {
+      if (Array.isArray(modifier)) {
+        return {
+          type: "VisibilitySpecifier",
+          value: modifier[0],
+          start: location().start.offset,
+          end: location().end.offset
+        };
+      }
+
+      return modifier;
+    }
+
+StateMutabilitySpecifier
+  = token:(ConstantToken / PureToken / ViewToken / PayableToken) {
+      return {
+        type: "StateMutabilitySpecifier",
+        value: token[0],
+        start: location().start.offset,
+        end: location().end.offset
+      };
+    }
 
 VisibilitySpecifier
   = PublicToken
@@ -1117,7 +1158,7 @@ EmptyStatement
   = ";" { return { type: "EmptyStatement", start: location().start.offset, end: location().end.offset }; }
 
 ExpressionStatement
-  = !("{" / FunctionToken / ContractToken / InterfaceToken / LibraryToken / StructToken / EnumToken) expression:Expression EOS {
+  = !("{" / ContractToken / InterfaceToken / LibraryToken / StructToken / EnumToken) expression:Expression EOS {
       return {
         type:       "ExpressionStatement",
         expression: expression,
@@ -1543,6 +1584,11 @@ ModifierNameList
 
 ModifierArgumentList
   = head:ModifierArgument tail:( __ ModifierArgument)* {
+      return buildList(head, tail, 1);
+    }
+
+FunctionTypeModifierList
+  = head:FunctionTypeModifier tail:( __ FunctionTypeModifier)* {
       return buildList(head, tail, 1);
     }
 
