@@ -48,6 +48,9 @@ interface i {
   function f();
 }
 
+contract extends {}
+contract export {}
+
 contract c {
   function c()
   {

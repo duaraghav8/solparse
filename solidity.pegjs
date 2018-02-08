@@ -200,7 +200,6 @@ UnicodeConnectorPunctuation
 
 ReservedWord
   = Keyword
-  / FutureReservedWord
   / NullToken
   / BooleanLiteral
 
@@ -225,10 +224,6 @@ Keyword
   / ThrowToken
   / VarToken
   / WhileToken
-
-FutureReservedWord
-  = ExportToken
-  / ExtendsToken
 
 Literal
   = BooleanLiteral
@@ -484,8 +479,6 @@ ElseToken       = "else"       !IdentifierPart
 EnumToken       = "enum"       !IdentifierPart
 EtherToken      = "ether"      !IdentifierPart
 EventToken      = "event"      !IdentifierPart
-ExportToken     = "export"     !IdentifierPart
-ExtendsToken    = "extends"    !IdentifierPart
 FalseToken      = "false"      !IdentifierPart
 FinneyToken     = "finney"     !IdentifierPart
 ForToken        = "for"        !IdentifierPart
