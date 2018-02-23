@@ -1723,6 +1723,7 @@ AssemblyItem
   / AssemblyLocalBinding
   / AssemblyAssignment
   / AssemblyLabel
+  / AssemblyIf
   / AssemblyFor
   / NumericLiteral
   / StringLiteral
@@ -1796,6 +1797,17 @@ AssemblyLabel
       name: name,
       start: location().start.offset,
       end: location().end.offset
+    }
+  }
+
+AssemblyIf
+  = IfToken __ test:AssemblyExpression __ body:InlineAssemblyBlock {
+    return {
+        type: "AssemblyIf",
+        test: test,
+        body: body,
+        start: location().start.offset,
+        end: location().end.offset
     }
   }
 
