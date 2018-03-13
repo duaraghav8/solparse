@@ -461,6 +461,7 @@ Zs = [\u0020\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]
 
 /* Tokens */
 
+EmitToken       = "emit"       !IdentifierPart
 ExperimentalToken      = "experimental"      !IdentifierPart
 ExternalToken   = "external"   !IdentifierPart
 PureToken       = "pure"       !IdentifierPart
@@ -1075,6 +1076,7 @@ Statement
   / ReturnStatement
   / ThrowStatement
   / UsingStatement
+  / EmitStatement
 
 Block
   = "{" __ body:(StatementList __)? "}" {
@@ -1259,6 +1261,17 @@ UsingStatement
       start: location().start.offset,
       end: location().end.offset
     }
+  }
+
+EmitStatement
+  = EmitToken __ callexpr:CallExpression EOS
+  {
+    return {
+      type: "EmitStatement",
+      expression: callexpr,
+      start: location().start.offset,
+      end: location().end.offset
+    };
   }
 
 SymbolList

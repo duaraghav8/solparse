@@ -536,4 +536,13 @@ contract Bar {
     }
 }
 
+contract EventTester {
+    event Transfer(string name, uint amount);
+
+    function foo() public {
+        Transfer("Jacob", 2901);
+        emit Transfer("Jacob", 2901);
+    }
+}
+
 //end of file
