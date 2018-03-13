@@ -9,6 +9,10 @@
     "test": "mocha --timeout 5000 --reporter spec",
     "lint": "eslint index.js test/ cli.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duaraghav8/solparse.git"
+  },
   "bin": {
     "solidity-parser": "./cli.js"
   },
