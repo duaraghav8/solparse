@@ -545,4 +545,13 @@ contract EventTester {
     }
 }
 
+contract UsesNewConstructor {
+    constructor(uint x, string y, address z) {
+        if (true) {}
+    }
+}
+
+contract UsesNewConstructor {
+    constructor() payable public {}
+}
 //end of file

@@ -473,6 +473,7 @@ BreakToken      = "break"      !IdentifierPart
 ConstantToken   = "constant"   !IdentifierPart
 ContinueToken   = "continue"   !IdentifierPart
 ContractToken   = "contract"   !IdentifierPart
+ConstructorToken   = "constructor"   !IdentifierPart
 DaysToken       = "days"       !IdentifierPart
 DeleteToken     = "delete"     !IdentifierPart
 DoToken         = "do"         !IdentifierPart
@@ -1514,6 +1515,19 @@ FunctionDeclaration
       };
     }
 
+ConstructorDeclaration
+  = ConstructorToken __ fnname:FunctionName __ args:ModifierArgumentList? __ body:FunctionBody
+    {
+      return {
+        type: "ConstructorDeclaration",
+        params: fnname.params,
+        modifiers: args,
+        body: body,
+        start: location().start.offset,
+        end: location().end.offset
+      };
+    }
+
 ReturnsDeclaration
   = ReturnsToken __ params:("(" __ InformalParameterList __ ")")
   {
@@ -1718,6 +1732,7 @@ SourceElement
   / StructDeclaration
   / ModifierDeclaration
   / FunctionDeclaration
+  / ConstructorDeclaration
   / UsingStatement
 
 InlineAssemblyBlock
