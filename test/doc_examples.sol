@@ -155,6 +155,15 @@ library IntegerSet
     /// Number of stored items.
     uint size;
   }
+  struct Request {
+   bytes calldata data;
+   function(bytes memory) external callback;
+  }
+  function bar(uint[] memory self, function (uint) pure returns (uint) f)  public {
+   (bool success, bytes memory data) = otherContract.call("f");
+   uint[] calldata x = m_x;
+  }
+  function f(uint[][] calldata x) external {}
   function insert(data storage self, uint value) returns (bool alreadyPresent)
   {
     uint index = self.index[value];

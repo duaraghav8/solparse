@@ -470,6 +470,7 @@ PayableToken    = "payable"    !IdentifierPart
 AnonymousToken  = "anonymous"  !IdentifierPart
 AsToken         = "as"         !IdentifierPart
 BreakToken      = "break"      !IdentifierPart
+CalldataToken   = "calldata"   !IdentifierPart
 ConstantToken   = "constant"   !IdentifierPart
 ContinueToken   = "continue"   !IdentifierPart
 ContractToken   = "contract"   !IdentifierPart
@@ -784,6 +785,7 @@ VisibilitySpecifier
 StorageLocationSpecifier
   = StorageToken
   / MemoryToken
+  / CalldataToken
 
 StateVariableSpecifiers
   = specifiers:(VisibilitySpecifier __ ConstantToken?){
@@ -1632,16 +1634,15 @@ CommaSeparatedModifierNameList
     }
 
 InformalParameter
-  = type:Type __ isindexed:IndexedToken? __ isconstant:ConstantToken? __ isstorage:StorageToken? __ ismemory:MemoryToken? __ id:Identifier?
+  = type:Type __ isindexed:IndexedToken? __ isconstant:ConstantToken? __ storage:StorageLocationSpecifier? __ id:Identifier?
   {
     return {
       type: "InformalParameter",
       literal: type,
       id: id ? id.name : null,
       is_indexed: isindexed != null,
-      is_storage: isconstant != null,
-      is_storage: isstorage != null,
-      is_memory: ismemory != null,
+      is_constant: isconstant != null,
+      storage_location: storage ? storage[0]: null,
       start: location().start.offset,
       end: location().end.offset
     };
