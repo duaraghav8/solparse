@@ -561,6 +561,11 @@ contract UsesNewConstructor {
 }
 
 contract UsesNewConstructor {
-    constructor() payable public {}
+    address
+    payable public alice;
+
+    constructor(address payable _alice) payable public {
+      address         payable x;
+    }
 }
 //end of file

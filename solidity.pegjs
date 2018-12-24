@@ -180,6 +180,16 @@ IdentifierPart
   = IdentifierStart
   / UnicodeDigit
 
+AddressPayable
+  = "address" __  PayableToken {
+      return {
+        type: "Identifier",
+        name: "address_payable",
+        start: location().start.offset,
+        end: location().end.offset
+      };
+    }
+
 UnicodeLetter
   = Lu
   / Ll
@@ -728,7 +738,7 @@ LeftHandSideExpression
   / NewExpression
 
 Type
-  = literal:(Mapping / Identifier) members:("." Identifier)* parts:(__"[" __ (Expression)? __ "]")*
+  = literal:(Mapping / AddressPayable / Identifier) members:("." Identifier)* parts:(__"[" __ (Expression)? __ "]")*
   {
     return {
       type: "Type",
