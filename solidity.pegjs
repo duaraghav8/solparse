@@ -333,7 +333,14 @@ StringLiteral "string"
     }
 
 HexStringLiteral
-  = HexToken StringLiteral
+  = HexToken val:StringLiteral {
+    return {
+      type: "HexLiteral",
+      value: val,
+      start: location().start.offset,
+      end: location().end.offset
+    };
+  }
 
 DoubleStringCharacter
   = !('"' / "\\" / LineTerminator) SourceCharacter { return text(); }
