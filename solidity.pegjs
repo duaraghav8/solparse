@@ -389,7 +389,7 @@ UnicodeEscapeSequence
     }
 
 VersionLiteral
-  = operator:(RelationalOperator / EqualityOperator / BitwiseXOROperator)? __ ("v")? major:DecimalIntegerLiteral minor:("." DecimalIntegerLiteral)? patch:("." DecimalIntegerLiteral)? {
+  = operator:(RelationalOperator / EqualityOperator / BitwiseXOROperator / Tilde)? __ ("v")? major:DecimalIntegerLiteral minor:("." DecimalIntegerLiteral)? patch:("." DecimalIntegerLiteral)? {
     if (patch === null) {
       patch = 0;
     } else {
@@ -947,6 +947,9 @@ EqualityExpression
 EqualityOperator
   = "=="
   / "!="
+
+Tilde
+  = "~"
 
 BitwiseANDExpression
   = head:EqualityExpression

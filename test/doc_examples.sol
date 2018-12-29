@@ -31,6 +31,9 @@ pragma solidity > 0;
 pragma solidity != 0;
 pragma solidity >=0 <=1;
 
+pragma solidity ~0.4.24;
+pragma solidity ~0.4.24 >=0.5;
+
 
 // Pragma statements that enable experimental (breaking) features
 pragma experimental "SMTChecker";
