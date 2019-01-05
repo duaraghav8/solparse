@@ -1769,6 +1769,7 @@ InlineAssemblyBlock
 AssemblyItem
   = FunctionalAssemblyInstruction
   / InlineAssemblyBlock
+  / AssemblyFunctionDefinition
   / AssemblyLocalBinding
   / AssemblyAssignment
   / AssemblyLabel
@@ -1787,6 +1788,24 @@ ElementaryAssemblyOperation
   = NumericLiteral
   / StringLiteral
   / Identifier
+
+AssemblyIdentifierList
+  = head:Identifier tail:(__ ',' __ Identifier)* {
+    return buildList(head, tail, 3);
+  }
+
+AssemblyFunctionDefinition
+  = FunctionToken __ id:Identifier __ '(' __ params:AssemblyIdentifierList? __ ')' __ returns:('->' __ AssemblyIdentifierList __)? body:InlineAssemblyBlock {
+    return {
+      type: "AssemblyFunctionDefinition",
+      name: id.name,
+      params: params != null ? params : [],
+      returnParams: returns != null ? returns[2] : [],
+      body: body,
+      start: location().start.offset,
+      end: location().end.offset
+    }
+  }
 
 AssemblyLocalBinding
   = 'let' __ name:Identifier __ ':=' __ expression:AssemblyExpression {

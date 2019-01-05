@@ -425,6 +425,26 @@ contract assemblyForLoop {
   }
 }
 
+contract assemblyFunction {
+  function foobar() {
+    assembly {
+      function foo(){}
+      function      foo   (abc   ,   butter_chicken   ,    coala
+      ,   jasmine)       ->     pewdiepie  ,    tseries,lambo {
+
+      }
+
+      function bar(lorem, ipsum, dollar, quote) -> cashew, nut, chocolate, blueberry {
+        let cashew := 0
+        let nut := 0
+      }
+
+      function axe() -> big, small {}
+      function baxe(a, bc, def, ghij) {}
+    }
+  }
+}
+
 contract usesConst {
   uint const = 0;
 }
