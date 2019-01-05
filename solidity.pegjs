@@ -1808,14 +1808,14 @@ AssemblyFunctionDefinition
   }
 
 AssemblyLocalBinding
-  = 'let' __ name:Identifier expression:(__ ':=' __ AssemblyExpression)? {
+  = 'let' __ names:AssemblyIdentifierList expression:(__ ':=' __ AssemblyExpression)? {
     if (expression != null) {
       expression = expression[3];
     }
 
     return {
       type: "AssemblyLocalBinding",
-      name: name,
+      names: names,
       expression: expression,
       start: location().start.offset,
       end: location().end.offset
@@ -1823,19 +1823,11 @@ AssemblyLocalBinding
   }
 
 AssemblyAssignment
-  = name:Identifier __ ':=' __ expression:AssemblyExpression {
+  = names:AssemblyIdentifierList __ ':=' __ expression:AssemblyExpression {
     return {
       type: "AssemblyAssignment",
-      name: name,
+      names: names,
       expression: expression,
-      start: location().start.offset,
-      end: location().end.offset
-    }
-  }
-  / '=:' __ name:Identifier {
-    return {
-      type: "AssemblyAssignment",
-      name: name,
       start: location().start.offset,
       end: location().end.offset
     }

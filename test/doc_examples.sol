@@ -383,12 +383,14 @@ contract assemblyLocalBinding {
       let x := 0x00
       let y := x
       let z := "hello"
+      let a, bcd, efgh := callMyFunc()
 
       a := 0
       b := 90172
       c := myVariable
       d := foobar()
       e := "lala"
+      x, yz, abc := somerandomfunc()
     }
   }
 }
