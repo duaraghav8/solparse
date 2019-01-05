@@ -1808,7 +1808,11 @@ AssemblyFunctionDefinition
   }
 
 AssemblyLocalBinding
-  = 'let' __ name:Identifier __ ':=' __ expression:AssemblyExpression {
+  = 'let' __ name:Identifier expression:(__ ':=' __ AssemblyExpression)? {
+    if (expression != null) {
+      expression = expression[3];
+    }
+
     return {
       type: "AssemblyLocalBinding",
       name: name,

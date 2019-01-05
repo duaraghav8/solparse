@@ -376,6 +376,9 @@ library GetCode {
 contract assemblyLocalBinding {
   function test(){
     assembly {
+      let x
+      let abc123
+
       let v := 1
       let x := 0x00
       let y := x
