@@ -85,8 +85,8 @@
         operator: element[1],
         left:     result,
         right:    element[3],
-        start: location().start.offset,
-        end: location().end.offset
+        start: result.start,
+        end: element[3].end
       };
     });
   }
