@@ -219,6 +219,7 @@ Keyword
   / ContractToken
   / InterfaceToken
   / DeleteToken
+  / DefaultToken
   / DoToken
   / ElseToken
   / ForToken
@@ -230,6 +231,7 @@ Keyword
   / PragmaToken
   / ReturnToken
   / ReturnsToken
+  / SwitchToken
   / ThisToken
   / ThrowToken
   / VarToken
@@ -492,7 +494,9 @@ ConstantToken   = "constant"   !IdentifierPart
 ContinueToken   = "continue"   !IdentifierPart
 ContractToken   = "contract"   !IdentifierPart
 ConstructorToken   = "constructor"   !IdentifierPart
+CaseToken       = "case"       !IdentifierPart
 DaysToken       = "days"       !IdentifierPart
+DefaultToken    = "default"    !IdentifierPart
 DeleteToken     = "delete"     !IdentifierPart
 DoToken         = "do"         !IdentifierPart
 ElseToken       = "else"       !IdentifierPart
@@ -531,6 +535,7 @@ SolidityToken   = "solidity"   !IdentifierPart
 StorageToken    = "storage"    !IdentifierPart
 StructToken     = "struct"     !IdentifierPart
 SuperToken      = "super"      !IdentifierPart
+SwitchToken     = "switch"     !IdentifierPart
 SzaboToken      = "szabo"      !IdentifierPart
 ThisToken       = "this"       !IdentifierPart
 ThrowToken      = "throw"      !IdentifierPart
@@ -1774,7 +1779,9 @@ AssemblyItem
   / AssemblyAssignment
   / AssemblyLabel
   / AssemblyIf
+  / AssemblySwitch
   / AssemblyFor
+  / AssemblyBreakContinue
   / NumericLiteral
   / StringLiteral
   / HexStringLiteral
@@ -1875,6 +1882,42 @@ AssemblyIf
     }
   }
 
+AssemblySwitch
+  = SwitchToken __ test:AssemblyExpression __ body:AssemblySwitchStatement {
+    return {
+        type: "AssemblySwitch",
+        test: test,
+        body: body,
+        start: location().start.offset,
+        end: location().end.offset
+    }
+  }
+
+AssemblySwitchStatement
+  = AssemblyCase+ __ AssemblyDefault?
+  / AssemblyDefault
+
+AssemblyCase
+  = CaseToken __ value:Literal __ body:InlineAssemblyBlock {
+    return {
+      type: "AssemblyCase",
+      value: value,
+      body: body,
+      start: location().start.offset,
+      end: location().end.offset
+    }
+  }
+
+AssemblyDefault
+  = DefaultToken __ body:InlineAssemblyBlock {
+    return {
+      type: "AssemblyDefault",
+      body: body,
+      start: location().start.offset,
+      end: location().end.offset
+    }
+  }
+
 AssemblyFor
   = ForToken __
   init:(InlineAssemblyBlock / FunctionalAssemblyInstruction) __
@@ -1892,3 +1935,7 @@ AssemblyFor
       end: location().end.offset
     };
   }
+
+AssemblyBreakContinue
+  = BreakToken
+  / ContinueToken
