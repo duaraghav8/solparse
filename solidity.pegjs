@@ -1894,7 +1894,7 @@ AssemblySwitch
   }
 
 AssemblySwitchStatement
-  = AssemblyCase+ AssemblyDefault?
+  = AssemblyCase+ __ AssemblyDefault?
   / AssemblyDefault
 
 AssemblyCase
