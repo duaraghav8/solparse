@@ -40,7 +40,7 @@
   "dependencies": {
     "mocha": "^4.0.1",
     "pegjs": "^0.10.0",
-    "yargs": "^10.0.3"
+    "yargs": "^17.7.1"
   },
   "devDependencies": {
     "mkdirp": "^0.5.1"
